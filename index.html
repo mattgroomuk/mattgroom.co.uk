@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The personal website of Matt Groom.">
+  <meta name="theme-color" content="#173849">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Matt Groom">
+  <meta property="og:title" content="Matt Groom">
+  <meta property="og:description" content="The personal website of Matt Groom.">
+  <meta property="og:url" content="https://www.mattgroom.co.uk/">
+  <meta property="og:image" content="https://www.mattgroom.co.uk/assets/home-fjord.jpg">
+  <meta property="og:image:alt" content="A quiet Nordic fjord at first light">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Matt Groom">
+  <meta name="twitter:description" content="The personal website of Matt Groom.">
+  <meta name="twitter:image" content="https://www.mattgroom.co.uk/assets/home-fjord.jpg">
+  <link rel="canonical" href="https://www.mattgroom.co.uk/">
+  <link rel="preload" as="image" href="assets/home-fjord.jpg" fetchpriority="high">
+  <title>Matt Groom</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: #173849;
+    }
+
+    body {
+      min-height: 100svh;
+      overflow: hidden;
+      color: #f7faf9;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .scene,
+    .scene::after,
+    .scene img {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .scene {
+      background: #173849;
+      overflow: hidden;
+    }
+
+    .scene img {
+      object-fit: cover;
+      object-position: center center;
+      filter: saturate(.88) contrast(1.04);
+      animation: settle 1.6s cubic-bezier(.22, .61, .36, 1) both;
+    }
+
+    .scene::after {
+      content: "";
+      background:
+        linear-gradient(180deg, rgba(7, 27, 38, .34), transparent 34%),
+        linear-gradient(0deg, rgba(5, 22, 31, .42), transparent 38%);
+      pointer-events: none;
+    }
+
+    .identity,
+    .cv-link {
+      position: fixed;
+      z-index: 1;
+    }
+
+    .identity {
+      top: clamp(26px, 5vw, 64px);
+      left: clamp(26px, 5vw, 64px);
+      margin: 0;
+      font-size: clamp(13px, 1.1vw, 16px);
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 18px rgba(4, 20, 28, .35);
+    }
+
+    .cv-link {
+      right: clamp(24px, 5vw, 64px);
+      bottom: clamp(24px, 5vw, 58px);
+      display: inline-flex;
+      align-items: center;
+      gap: .65em;
+      padding: .78em 1.05em;
+      color: inherit;
+      background: rgba(12, 38, 51, .2);
+      border: 1px solid rgba(255, 255, 255, .48);
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: .05em;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .cv-link::after {
+      content: "\2197";
+      font-size: 1.05em;
+    }
+
+    .cv-link:hover {
+      background: rgba(12, 38, 51, .44);
+      border-color: rgba(255, 255, 255, .78);
+      transform: translateY(-1px);
+    }
+
+    .cv-link:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, .88);
+      outline-offset: 4px;
+    }
+
+    @keyframes settle {
+      from { opacity: 0; transform: scale(1.018); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-aspect-ratio: 3 / 4) {
+      .scene img { object-position: 52% center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scene img { animation: none; }
+      .cv-link { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="scene" aria-hidden="true">
+      <img src="assets/home-fjord.jpg" alt="" width="1672" height="941" fetchpriority="high">
+    </div>
+    <p class="identity">Matt Groom</p>
+    <a class="cv-link" href="cv/">Curriculum vitae</a>
+  </main>
+  <!-- Cloudflare Web Analytics -->
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"184a92dcacc841caa5e56caebbf857f9"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
