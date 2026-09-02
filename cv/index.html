@@ -19,18 +19,39 @@
   <link rel="canonical" href="https://www.mattgroom.co.uk/cv/">
   <title>Matt Groom - Curriculum Vitae</title>
   <script>
-    const narrowScreen = window.matchMedia("(max-width: 700px)");
-    const touchScreen = window.matchMedia("(pointer: coarse) and (max-width: 1024px)");
-    const setResponsiveLayout = () => {
-      document.documentElement.dataset.layout = narrowScreen.matches || touchScreen.matches
-        ? "mobile"
-        : "desktop";
-    };
-    setResponsiveLayout();
-    [narrowScreen, touchScreen].forEach(query => {
-      if (query.addEventListener) query.addEventListener("change", setResponsiveLayout);
-      else query.addListener(setResponsiveLayout);
-    });
+    (() => {
+      const root = document.documentElement;
+      const storageKey = "matt-groom-cv-theme-v1";
+      const allowedThemes = new Set(["nordic", "sage", "fjord", "deep-fjord", "arctic", "sea-glass", "spruce", "forest", "ink", "heather", "moonlight", "lavender", "mono", "akerbp"]);
+      const adjustableVariables = ["--teal", "--navy", "--ink", "--paper", "--mist"];
+      const applyStoredTheme = rawValue => {
+        let saved = {};
+        try { saved = JSON.parse(rawValue || "{}"); } catch (error) { saved = {}; }
+        root.dataset.theme = allowedThemes.has(saved.theme) ? saved.theme : "deep-fjord";
+        adjustableVariables.forEach(name => root.style.removeProperty(name));
+        if (saved.custom && typeof saved.custom === "object") {
+          adjustableVariables.forEach(name => {
+            const value = saved.custom[name];
+            if (typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value)) root.style.setProperty(name, value);
+          });
+        }
+      };
+      try { applyStoredTheme(localStorage.getItem(storageKey)); } catch (error) { applyStoredTheme(null); }
+      window.addEventListener("storage", event => {
+        if (event.key === storageKey) applyStoredTheme(event.newValue);
+      });
+
+      const narrowScreen = window.matchMedia("(max-width: 700px)");
+      const touchScreen = window.matchMedia("(pointer: coarse) and (max-width: 1024px)");
+      const setResponsiveLayout = () => {
+        root.dataset.layout = narrowScreen.matches || touchScreen.matches ? "mobile" : "desktop";
+      };
+      setResponsiveLayout();
+      [narrowScreen, touchScreen].forEach(query => {
+        if (query.addEventListener) query.addEventListener("change", setResponsiveLayout);
+        else query.addListener(setResponsiveLayout);
+      });
+    })();
   </script>
   <style>
     :root {

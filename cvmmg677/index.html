@@ -21,14 +21,24 @@
   <title>Matt Groom - Curriculum Vitae</title>
   <script>
     try {
+      const root = document.documentElement;
       const requestedLayout = new URLSearchParams(location.search).get("layout");
       if (requestedLayout === "desktop" || requestedLayout === "mobile") {
-        document.documentElement.dataset.layout = requestedLayout;
+        root.dataset.layout = requestedLayout;
+      } else {
+        const narrowScreen = window.matchMedia("(max-width: 700px)");
+        const touchScreen = window.matchMedia("(pointer: coarse) and (max-width: 1024px)");
+        root.dataset.layout = narrowScreen.matches || touchScreen.matches ? "mobile" : "desktop";
       }
       const savedTheme = JSON.parse(localStorage.getItem("matt-groom-cv-theme-v1") || "{}");
-      if (savedTheme.theme) document.documentElement.dataset.theme = savedTheme.theme;
+      const allowedThemes = new Set(["nordic", "sage", "fjord", "deep-fjord", "arctic", "sea-glass", "spruce", "forest", "ink", "heather", "moonlight", "lavender", "mono", "akerbp"]);
+      const adjustableVariables = ["--teal", "--navy", "--ink", "--paper", "--mist"];
+      root.dataset.theme = allowedThemes.has(savedTheme.theme) ? savedTheme.theme : "deep-fjord";
       if (savedTheme.custom) {
-        Object.entries(savedTheme.custom).forEach(([name, value]) => document.documentElement.style.setProperty(name, value));
+        adjustableVariables.forEach(name => {
+          const value = savedTheme.custom[name];
+          if (typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value)) root.style.setProperty(name, value);
+        });
       }
     } catch (error) {
       /* Keep the default palette when storage is unavailable. */
@@ -791,12 +801,32 @@
     }
 
     @media screen and (max-width: 560px) {
-      .print-bar { align-items: stretch; padding: 12px 14px; }
+      .print-bar { align-items: stretch; gap: 9px; padding: 10px; }
       .toolbar-copy { width: 100%; }
-      .toolbar-actions { width: 100%; }
-      .toolbar-actions button { flex: 1; }
-      .theme-grid { grid-template-columns: 1fr; }
+      .toolbar-copy span { font-size: 10.5px; }
+      .toolbar-actions { display: grid; width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+      .toolbar-actions button { width: 100%; min-height: 42px; padding: 9px 8px; }
+      #exportBoth { grid-column: 1 / -1; }
+      .theme-studio {
+        position: fixed;
+        inset: auto 8px 8px;
+        width: auto;
+        max-height: calc(100dvh - 76px);
+        margin: 0;
+        padding: 14px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        border-radius: 16px;
+      }
+      .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .theme-choice { min-height: 50px; gap: 7px; padding: 7px; font-size: 11px; }
+      .swatches { width: 36px; height: 24px; }
       .studio-heading { display: grid; gap: 4px; }
+      .studio-heading h2 { font-size: 16px; }
+      .customise-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .adjustment { min-width: 0; }
+      .adjustment input[type="color"] { height: 42px; }
+      .reset-theme { grid-column: 1 / -1; width: 100%; min-height: 42px; }
     }
 
     @page { size: A4; margin: 0; }
@@ -840,7 +870,7 @@
   <aside class="theme-studio" id="themeStudio" aria-label="Theme studio" hidden>
     <div class="studio-heading">
       <h2>Choose a cool, calm palette</h2>
-      <p>Selections and colour adjustments are remembered on this device.</p>
+      <p>Saved on this device and applied automatically to the public CV.</p>
     </div>
     <div class="theme-grid" role="group" aria-label="CV colour themes">
       <button class="theme-choice" type="button" data-theme-choice="nordic" aria-pressed="false"><span class="swatches" aria-hidden="true"><i style="--swatch:#17354d"></i><i style="--swatch:#3f8585"></i><i style="--swatch:#fbfaf7"></i></span><span>Nordic Mist</span></button>
@@ -1163,6 +1193,11 @@
       const inputs = [...document.querySelectorAll("[data-theme-var]")];
       const adjustableVariables = inputs.map(input => input.dataset.themeVar);
       const themeNames = Object.fromEntries(choices.map(choice => [choice.dataset.themeChoice, choice.innerText.trim()]));
+      const requestedLayout = new URLSearchParams(location.search).get("layout");
+      const narrowScreen = window.matchMedia("(max-width: 700px)");
+      const touchScreen = window.matchMedia("(pointer: coarse) and (max-width: 1024px)");
+      let layoutIsManual = requestedLayout === "desktop" || requestedLayout === "mobile";
+      const automaticLayout = () => narrowScreen.matches || touchScreen.matches ? "mobile" : "desktop";
 
       let saved = {};
       try { saved = JSON.parse(localStorage.getItem(storageKey) || "{}"); } catch (error) { saved = {}; }
@@ -1177,8 +1212,8 @@
 
       if (!themeNames[state.theme]) {
         adjustableVariables.forEach(name => root.style.removeProperty(name));
-        root.dataset.theme = "fjord";
-        state = { theme: "fjord", custom: {} };
+        root.dataset.theme = "deep-fjord";
+        state = { theme: "deep-fjord", custom: {} };
         save();
       }
 
@@ -1262,7 +1297,16 @@
       });
 
       layoutToggle.addEventListener("click", () => {
+        layoutIsManual = true;
         setLayout(root.dataset.layout === "mobile" ? "desktop" : "mobile");
+      });
+
+      [narrowScreen, touchScreen].forEach(query => {
+        const followScreen = () => {
+          if (!layoutIsManual) setLayout(automaticLayout());
+        };
+        if (query.addEventListener) query.addEventListener("change", followScreen);
+        else query.addListener(followScreen);
       });
 
       exportBoth.addEventListener("click", async () => {
@@ -1304,7 +1348,7 @@
         }
       });
 
-      setLayout(root.dataset.layout === "mobile" ? "mobile" : "desktop");
+      setLayout(layoutIsManual ? requestedLayout : automaticLayout());
       sync();
     })();
   </script>
