@@ -22,7 +22,7 @@
     (() => {
       const root = document.documentElement;
       const storageKey = "matt-groom-cv-theme-v1";
-      const allowedThemes = new Set(["nordic", "sage", "fjord", "deep-fjord", "arctic", "sea-glass", "spruce", "forest", "ink", "heather", "moonlight", "lavender", "mono", "akerbp"]);
+      const allowedThemes = new Set(["nordic", "sage", "fjord", "deep-fjord", "arctic", "sea-glass", "spruce", "forest", "ink", "heather", "moonlight", "lavender", "mono"]);
       const adjustableVariables = ["--teal", "--navy", "--ink", "--paper", "--mist"];
       const applyStoredTheme = rawValue => {
         let saved = {};
@@ -131,12 +131,6 @@
       --gold: #838b8e; --ink: #32383a; --muted: #737b7e; --line: #d8dddf;
       --mist: #f2f4f4; --paper: #ffffff; --surface: #ffffff; --canvas: #e9ebec;
     }
-    html[data-theme="akerbp"] {
-      --navy: #02293c; --navy-2: #163f51; --teal: #ce0f69; --teal-soft: #f2d8e5;
-      --gold: #ce0f69; --ink: #24333b; --muted: #73838d; --line: #d6dde1;
-      --mist: #f6edf2; --paper: #ffffff; --surface: #ffffff; --canvas: #e7ecef;
-    }
-
     * { box-sizing: border-box; }
     html { background: var(--canvas); }
     body {

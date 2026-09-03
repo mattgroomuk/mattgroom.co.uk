@@ -31,7 +31,7 @@
         root.dataset.layout = narrowScreen.matches || touchScreen.matches ? "mobile" : "desktop";
       }
       const savedTheme = JSON.parse(localStorage.getItem("matt-groom-cv-theme-v1") || "{}");
-      const allowedThemes = new Set(["nordic", "sage", "fjord", "deep-fjord", "arctic", "sea-glass", "spruce", "forest", "ink", "heather", "moonlight", "lavender", "mono", "akerbp"]);
+      const allowedThemes = new Set(["nordic", "sage", "fjord", "deep-fjord", "arctic", "sea-glass", "spruce", "forest", "ink", "heather", "moonlight", "lavender", "mono"]);
       const adjustableVariables = ["--teal", "--navy", "--ink", "--paper", "--mist"];
       root.dataset.theme = allowedThemes.has(savedTheme.theme) ? savedTheme.theme : "deep-fjord";
       if (savedTheme.custom) {
@@ -122,12 +122,6 @@
       --gold: #838b8e; --ink: #32383a; --muted: #737b7e; --line: #d8dddf;
       --mist: #f2f4f4; --paper: #ffffff; --surface: #ffffff; --canvas: #e9ebec;
     }
-    html[data-theme="akerbp"] {
-      --navy: #02293c; --navy-2: #163f51; --teal: #ce0f69; --teal-soft: #f2d8e5;
-      --gold: #ce0f69; --ink: #24333b; --muted: #73838d; --line: #d6dde1;
-      --mist: #f6edf2; --paper: #ffffff; --surface: #ffffff; --canvas: #e7ecef;
-    }
-
     * { box-sizing: border-box; }
     html { background: var(--canvas); }
     body {
@@ -887,7 +881,6 @@
       <button class="theme-choice" type="button" data-theme-choice="moonlight" aria-pressed="false"><span class="swatches" aria-hidden="true"><i style="--swatch:#252f4a"></i><i style="--swatch:#596eaa"></i><i style="--swatch:#fbfbfd"></i></span><span>Moonlit Slate</span></button>
       <button class="theme-choice" type="button" data-theme-choice="lavender" aria-pressed="false"><span class="swatches" aria-hidden="true"><i style="--swatch:#403b5a"></i><i style="--swatch:#7772a8"></i><i style="--swatch:#fcfbfe"></i></span><span>Lavender Haze</span></button>
       <button class="theme-choice" type="button" data-theme-choice="mono" aria-pressed="false"><span class="swatches" aria-hidden="true"><i style="--swatch:#232a2d"></i><i style="--swatch:#646d70"></i><i style="--swatch:#ffffff"></i></span><span>Monochrome</span></button>
-      <button class="theme-choice" type="button" data-theme-choice="akerbp" aria-pressed="false"><span class="swatches" aria-hidden="true"><i style="--swatch:#02293c"></i><i style="--swatch:#ce0f69"></i><i style="--swatch:#ffffff"></i></span><span>Aker BP inspired</span></button>
     </div>
     <div class="customise-row" aria-label="Fine tune theme colours">
       <label class="adjustment">Accent<input type="color" data-theme-var="--teal" aria-label="Adjust accent colour"></label>
