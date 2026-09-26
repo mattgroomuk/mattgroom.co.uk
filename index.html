@@ -71,8 +71,7 @@
       pointer-events: none;
     }
 
-    .identity,
-    .cv-link {
+    .identity {
       position: fixed;
       z-index: 1;
     }
@@ -88,42 +87,6 @@
       text-shadow: 0 1px 18px rgba(4, 20, 28, .35);
     }
 
-    .cv-link {
-      right: clamp(24px, 5vw, 64px);
-      bottom: clamp(24px, 5vw, 58px);
-      display: inline-flex;
-      align-items: center;
-      gap: .65em;
-      padding: .78em 1.05em;
-      color: inherit;
-      background: rgba(12, 38, 51, .2);
-      border: 1px solid rgba(255, 255, 255, .48);
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 650;
-      letter-spacing: .05em;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
-    }
-
-    .cv-link::after {
-      content: "\2197";
-      font-size: 1.05em;
-    }
-
-    .cv-link:hover {
-      background: rgba(12, 38, 51, .44);
-      border-color: rgba(255, 255, 255, .78);
-      transform: translateY(-1px);
-    }
-
-    .cv-link:focus-visible {
-      outline: 3px solid rgba(255, 255, 255, .88);
-      outline-offset: 4px;
-    }
-
     @keyframes settle {
       from { opacity: 0; transform: scale(1.018); }
       to { opacity: 1; transform: scale(1); }
@@ -135,7 +98,6 @@
 
     @media (prefers-reduced-motion: reduce) {
       .scene img { animation: none; }
-      .cv-link { transition: none; }
     }
   </style>
 </head>
@@ -145,7 +107,6 @@
       <img src="assets/home-fjord.jpg" alt="" width="1672" height="941" fetchpriority="high">
     </div>
     <p class="identity">Matt Groom</p>
-    <a class="cv-link" href="cv/">Curriculum vitae</a>
   </main>
   <!-- Cloudflare Web Analytics -->
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"184a92dcacc841caa5e56caebbf857f9"}'></script>
